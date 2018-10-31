@@ -101,14 +101,13 @@ class ClientDetails extends Component {
                 </div>
                 <div className="col-md-4 col-sm-6">
                   <h3 className="pull-right">
-                    Saldo:{" "}
+                    {/* Saldo:{" "}
                     <span className={classnames({
                       "text-danger": client.balance > 0,
                       "text-success": client.balance === "0"
                     })}>
-                      {/* Rp. {parseFloat(client.balance).toFixed(2)} */}
                       Rp. {client.balance.toLocaleString('id')}
-                    </span>{" "}
+                    </span>{" "} */}
                     <small>
                       <a href="#!" onClick={() =>
                         this.setState({
@@ -141,16 +140,16 @@ class ClientDetails extends Component {
                   Jumlah Tiket : {client.ticketAmount}
                 </li>
                 <li className="list-group-item">
-                    <div className="alert alert-danger">
-                        <input type="checkbox" 
-                            className="form-check-input"
-                            id="verify"
-                            name="verify"
-                            checked={client.verify || false}
-                            disabled
-                            />
-                        <label className="form-check-label" htmlFor="verify">Verifikasi</label>
-                    </div>
+                  <div className="alert alert-danger">
+                    <input type="checkbox"
+                      className="form-check-input"
+                      id="verify"
+                      name="verify"
+                      checked={client.verify || false}
+                      disabled
+                    />
+                    <label className="form-check-label" htmlFor="verify">Verifikasi</label>
+                  </div>
                 </li>
               </ul>
             </div>

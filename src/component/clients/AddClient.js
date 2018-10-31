@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect, firebaseConnect } from 'react-redux-firebase';
 
-import propTypes from 'prop-types'
+import propTypes from 'prop-types';
+import Compressor from "compressorjs";
+
 
 class AddClient extends Component {
     state = {
@@ -14,31 +16,54 @@ class AddClient extends Component {
         lastClass: "",
         email: "",
         phone: "",
-        balance: "",
-        ticketAmount: "",
-        verify: false
+        downloadFileUrl: "",
     }
+
+    fileUpload = {
+        file: null
+    }
+
+
+    fileSelectHandler = (event) => {
+        this.fileUpload.file = event.target.files[0];
+    }
+
 
     onSubmit = (e) => {
         e.preventDefault();
 
+
         const newClient = this.state;
-        console.log(this.props);
-        const { firestore, history } = this.props;
+        const { firestore, firebase, history } = this.props;
 
-        if (newClient.balance === '') {
-            newClient.balance = 0;
-        }
+        const file = this.fileUpload.file;
 
-        firestore.add({ collection: 'clients' }, newClient).then(() => history.push('/'));
 
-    };
+        let ref = firebase.storage().ref();
+        const metadata = { contentType: file.type };
+
+
+        new Compressor(file, {
+            quality: 0.1,
+            success(result) {
+                const task = ref.child('images/' + file.name).put(result, metadata);
+
+                task
+                    .then(snapshot => {
+                        console.log(snapshot.metadata)
+                        newClient.downloadFileUrl = snapshot.metadata.fullPath;
+                    }).then(() => {
+                        firestore.add({ collection: 'clients' }, newClient).then(() => history.push('/'));
+                    })
+                    .catch(console.error);
+            }
+        })
+    }
 
     onChange = (e) => this.setState({ [e.target.name]: e.target.value });
-    onVerifyChange = (e) => this.setState({ [e.target.name]: e.target.checked});
+    onVerifyChange = (e) => this.setState({ [e.target.name]: e.target.checked });
 
     render() {
-        const { disableBalanceOnAdd } = this.props.settings;
         return (
             <div>
                 <div className="row">
@@ -110,36 +135,15 @@ class AddClient extends Component {
                                     autoComplete="Off" />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="ticketAmount">Jumlah tiket</label>
+                                <label htmlFor="fotoPendaftar">Foto</label>
                                 <input
-                                    type="text"
-                                    className="form-control"
-                                    name="ticketAmount"
-                                    onChange={this.onChange}
-                                    value={this.state.ticketAmount}
-                                    autoComplete="Off" />
+                                    type="file"
+                                    autoComplete="Off"
+                                    name="file"
+                                    onChange={this.fileSelectHandler}
+                                    accept="image/*" />
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="ticketAmount">Saldo yang harus di bayar</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="ticketAmount"
-                                    onChange={this.onChange}
-                                    value={this.state.balance}
-                                    disabled={disableBalanceOnAdd}
-                                    autoComplete="Off" />
-                            </div>
-                            <div className="form-group form-check">
-                                <input type="checkbox" 
-                                    className="form-check-input"
-                                    id="verify"
-                                    name="verify"
-                                    value={this.state.verify || false}
-                                    onChange={this.onVerifyChange}
-                                    />
-                                <label className="form-check-label" htmlFor="verify">Verifikasi</label>
-                            </div>
+
                             <input type="submit" value="Submit" className="btn btn-primary btn-block" />
                         </form>
                     </div>
@@ -153,10 +157,11 @@ class AddClient extends Component {
 
 AddClient.propTypes = {
     firestore: propTypes.object.isRequired,
+    firebase: propTypes.object.isRequired,
     settings: propTypes.object.isRequired
 }
 
-export default compose(firestoreConnect(),
+export default compose(firestoreConnect(), firebaseConnect(),
     connect((state, props) => ({
         settings: state.settings
     }))

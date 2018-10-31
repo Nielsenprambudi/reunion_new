@@ -11,18 +11,18 @@ import Spinner from "../layout/Spinner";
 
 class Clients extends Component {
     state = {
-        totalOwed: null
+        // totalOwed: null
     }
 
     static getDerivedStateFromProps(props, state) {
         const { clients } = props;
 
         if (clients) {
-            const total = clients.reduce((total, client) => {
-                return total + parseFloat(client.balance.toString())
-            }, 0);
+            // const total = clients.reduce((total, client) => {
+            //     return total + parseFloat(client.balance.toString())
+            // }, 0);
 
-            return { totalOwed: total }
+            // return { totalOwed: total }
         }
 
         return null;
@@ -30,7 +30,7 @@ class Clients extends Component {
 
     render() {
         const { clients } = this.props;
-        const { totalOwed } = this.state;
+        // const { totalOwed } = this.state;
         // const number = 3500;
         // console.log(number.toLocaleString('id'))
         if (clients) {
@@ -48,11 +48,11 @@ class Clients extends Component {
                                 Total Dana{' '}
                                 <span className="text-primary">
                                     {/* Rp. {parseFloat(totalOwed).toFixed(2)} */}
-                                    Rp. {(totalOwed).toLocaleString('id')}
+                                    {/* Rp. {(totalOwed).toLocaleString('id')} */}
                                 </span>
                             </h5>
                         </div>
-                        
+
                     </div>
                     <div className="table-responsive">
                         <table className="table table-striped">
@@ -60,7 +60,7 @@ class Clients extends Component {
                                 <tr>
                                     <th>Nama</th>
                                     <th>Email</th>
-                                    <th>Saldo</th>
+                                    {/* <th>Saldo</th> */}
                                     <th>Verifikasi</th>
                                     <th>Detil</th>
                                 </tr>
@@ -71,16 +71,16 @@ class Clients extends Component {
                                         <td>{client.firstName}</td>
                                         <td>{client.email}</td>
                                         {/* <td>Rp. {parseFloat(client.balance).toFixed(2).toLocaleString('id')}</td> */}
-                                        <td>Rp. {client.balance.toLocaleString('id')}</td>
+                                        {/* <td>Rp. {client.balance.toLocaleString('id')}</td> */}
                                         <td>
                                             <div className="form-group form-check">
-                                                <input type="checkbox" 
+                                                <input type="checkbox"
                                                     className="form-check-input"
                                                     id="verify"
                                                     name="verify"
                                                     checked={client.verify || false}
                                                     disabled
-                                                    />
+                                                />
                                                 <label className="form-check-label" htmlFor="verify">Verifikasi</label>
                                             </div>
                                         </td>

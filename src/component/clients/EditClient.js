@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect, firebaseConnect } from 'react-redux-firebase'
 
 import propTypes from 'prop-types'
 import Spinner from '../layout/Spinner';
@@ -11,18 +11,15 @@ import Spinner from '../layout/Spinner';
 
 class EditClient extends Component {
 
+
     constructor(props) {
         super(props);
 
         this.firstNameInput = React.createRef();
-        this.lastNameInput = React.createRef();
         this.addressInput = React.createRef();
         this.lastClassInput = React.createRef();
         this.emailInput = React.createRef();
         this.phoneInput = React.createRef();
-        this.balanceInput = React.createRef();
-        this.ticketAmountInput = React.createRef();
-        this.verifyCheck = React.createRef();
     }
 
     onSubmit = e => {
@@ -31,25 +28,32 @@ class EditClient extends Component {
         const { client, firestore, history } = this.props;
         const UpdClient = {
             firstName: this.firstNameInput.current.value,
-            lastName: this.lastNameInput.current.value,
             address: this.addressInput.current.value,
             lastClass: this.lastClassInput.current.value,
             phone: this.phoneInput.current.value,
-            email: this.emailInput.current.value,
-            balance: this.balanceInput.current.value === '' ?
-                0 : this.balanceInput.current.value,
-            ticketAmount: this.ticketAmountInput.current.value,
-            verify: this.verifyCheck.current.value
+            email: this.emailInput.current.value
         }
 
         firestore.update({ collection: 'clients', doc: client.id }, UpdClient)
             .then(history.push('/'));
     }
 
+    fileimage = {
+        file: ""
+    }
+
     render() {
-        const { client } = this.props;
-        const { disableBalanceOnEdit } = this.props.settings;
+        const { client, firebase } = this.props;
         if (client) {
+            const url = client.downloadFileUrl;
+            const ref = firebase.storage().ref();
+            const task = ref.child(url);
+
+            task.getDownloadURL().then((url) => {
+                document.querySelector('img').src = url;
+            }).catch((error) => {
+                console.log(error)
+            })
 
             return (
                 <div>
@@ -74,17 +78,6 @@ class EditClient extends Component {
                                         required
                                         ref={this.firstNameInput}
                                         defaultValue={client.firstName} />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="lastName">Nama Belakang</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="lastName"
-                                        minLength="2"
-                                        required
-                                        ref={this.lastNameInput}
-                                        defaultValue={client.lastName} />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="address">Alamat</label>
@@ -127,34 +120,17 @@ class EditClient extends Component {
                                         ref={this.phoneInput}
                                         defaultValue={client.phone} />
                                 </div>
+
+
                                 <div className="form-group">
-                                    <label htmlFor="balance">Saldo</label>
+                                    <label htmlFor="fotoPendaftar">Foto</label>
+                                    <img alt="altimage" height="125px" width="120px" />
                                     <input
-                                        type="text"
-                                        className="form-control"
-                                        name="balance"
-                                        ref={this.balanceInput}
-                                        defaultValue={client.balance}
-                                        disabled={disableBalanceOnEdit} />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="ticketAmount">Jumlah Tiket</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="ticketAmount"
-                                        ref={this.ticketAmountInput}
-                                        defaultValue={client.ticketAmount} />
-                                </div>
-                                <div className="form-group form-check">
-                                    <input type="checkbox" 
-                                        className="form-check-input"
-                                        id="verify"
-                                        name="verify"
-                                        ref={this.verifyCheck}
-                                        defaultChecked={client.verify || false}
-                                        />
-                                    <label className="form-check-label" htmlFor="verify">Verifikasi</label>
+                                        type="file"
+                                        autoComplete="Off"
+                                        name="file"
+                                        onChange={this.fileSelectHandler}
+                                        accept="image/*" />
                                 </div>
                                 <input type="submit" value="Submit" className="btn btn-primary btn-block" />
                             </form>
@@ -168,16 +144,16 @@ class EditClient extends Component {
     }
 }
 
-
 EditClient.propTypes = {
     firestore: propTypes.object.isRequired,
-    settings: propTypes.object.isRequired
+    settings: propTypes.object.isRequired,
+    firebase: propTypes.object.isRequired
 }
 
 export default compose(
     firestoreConnect(props => [
         { collection: "clients", storeAs: "client", doc: props.match.params.id }
-    ]),
+    ]), firebaseConnect(),
     connect(({ firestore: { ordered }, settings }, props) => ({
         client: ordered.client && ordered.client[0],
         settings: settings
