@@ -18,6 +18,7 @@ class AddClient extends Component {
         phone: "",
         ticketAmountDewasa: "",
         ticketAmountAnak: "",
+        verify: "belum terverifikasi",
         downloadFileUrl: "",
     }
 
@@ -155,7 +156,16 @@ class AddClient extends Component {
                                         value={this.state.phone}
                                         autoComplete="Off" />
                                 </div>
-
+                                <div className="form-group" hidden>
+                                    <label htmlFor="verify">verify</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="verify"
+                                        value={this.state.verify}
+                                        readOnly
+                                        autoComplete="Off" />
+                                </div>
 
                                 <h3>Jumlah Tiket</h3>
                                 <div className="row">
