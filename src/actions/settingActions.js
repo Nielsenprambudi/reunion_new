@@ -1,4 +1,4 @@
-import { DISABLE_BALANCE_ON_ADD, DISABLE_BALANCE_ON_EDIT, ALLOW_REGISTRATION } from "./types";
+import { DISABLE_BALANCE_ON_ADD, DISABLE_BALANCE_ON_EDIT, ALLOW_REGISTRATION, SEARCH } from "./types";
 
 
 export const setDisableBalanceOnAdd = () => {
@@ -37,4 +37,11 @@ export const setAllowRegistration = () => {
         type: ALLOW_REGISTRATION,
         payload: settings.allowRegistration
     }
+}
+
+
+export const search = (value) => {
+    return {
+        type: SEARCH, value
+    };
 }

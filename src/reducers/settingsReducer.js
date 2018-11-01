@@ -1,10 +1,11 @@
-import { DISABLE_BALANCE_ON_ADD, DISABLE_BALANCE_ON_EDIT, ALLOW_REGISTRATION } from "../actions/types";
+import { DISABLE_BALANCE_ON_ADD, DISABLE_BALANCE_ON_EDIT, ALLOW_REGISTRATION, SEARCH } from "../actions/types";
 
 // const initialState = {
 //     disableBalanceOnAdd: true,
 //     disableBalanceOnEdit: false,
 //     allowRegistration: false
 // }
+
 
 export default function (state = {}, action) {
 
@@ -24,6 +25,11 @@ export default function (state = {}, action) {
                 ...state,
                 allowRegistration: action.payload
             };
+        case SEARCH: {
+            const {value} = action;
+            const works = state.value.filter((val) => val.includes(value));
+            return {...state, value, works};
+            }
         default:
             return state;
     }

@@ -91,13 +91,30 @@ class EditClient extends Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="lastClass">Kelas Terakhir</label>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         className="form-control"
                                         name="lastClass"
                                         required
                                         ref={this.lastClassInput}
-                                        defaultValue={client.lastClass} />
+                                        defaultValue={client.lastClass} /> */}
+                                        <select
+                                            className="form-control"
+                                            name="lastClass"
+                                            required
+                                            ref={this.lastClassInput}
+                                            defaultValue={client.lastClass}>
+                                            <option value="3A11">3A11</option>
+                                            <option value="3A12">3A12</option>
+                                            <option value="3A13">3A13</option>
+                                            <option value="3A14">3A14</option>
+                                            <option value="3A21">3A21</option>
+                                            <option value="3A22">3A22</option>
+                                            <option value="3A31">3A31</option>
+                                            <option value="3A32">3A32</option>
+                                            <option value="3A33">3A33</option>
+                                            <option value="3A34">3A34</option>
+                                        </select>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="email">email</label>
@@ -121,9 +138,8 @@ class EditClient extends Component {
                                         defaultValue={client.phone} />
                                 </div>
 
-
+                                <label htmlFor="fotoPendaftar">Upload Foto</label>
                                 <div className="form-group">
-                                    <label htmlFor="fotoPendaftar">Foto</label>
                                     <img alt="altimage" height="125px" width="120px" />
                                     <input
                                         type="file"

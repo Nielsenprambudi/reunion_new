@@ -16,6 +16,7 @@ class AddClient extends Component {
         lastClass: "",
         email: "",
         phone: "",
+        ticketAmount: "",
         downloadFileUrl: "",
     }
 
@@ -102,14 +103,32 @@ class AddClient extends Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="lastClass">Kelas Terakhir</label>
-                                <input
+                                {/* <input
                                     type="text"
                                     className="form-control"
                                     name="lastClass"
                                     required
                                     onChange={this.onChange}
                                     value={this.state.lastClass}
-                                    autoComplete="Off" />
+                                    autoComplete="Off" /> */}
+                                <select
+                                    className="form-control"
+                                    name="lastClass"
+                                    required
+                                    onChange={this.onChange}
+                                    value={this.state.lastClass}
+                                    autoComplete="Off" >
+                                    <option value="3A11">3A11</option>
+                                    <option value="3A12">3A12</option>
+                                    <option value="3A13">3A13</option>
+                                    <option value="3A14">3A14</option>
+                                    <option value="3A21">3A21</option>
+                                    <option value="3A22">3A22</option>
+                                    <option value="3A31">3A31</option>
+                                    <option value="3A32">3A32</option>
+                                    <option value="3A33">3A33</option>
+                                    <option value="3A34">3A34</option>
+                                </select>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
@@ -135,7 +154,19 @@ class AddClient extends Component {
                                     autoComplete="Off" />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="fotoPendaftar">Foto</label>
+                                <label htmlFor="ticketAmount">Jumlah Tiket</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    name="ticketAmount"
+                                    minLength="10"
+                                    required
+                                    onChange={this.onChange}
+                                    value={this.state.ticketAmount}
+                                    autoComplete="Off" />
+                            </div>
+                            <label htmlFor="fotoPendaftar">Upload Foto</label>
+                            <div className="form-group">
                                 <input
                                     type="file"
                                     autoComplete="Off"

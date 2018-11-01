@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import classnames from "classnames";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
@@ -36,6 +35,7 @@ class ClientDetails extends Component {
   //delete client
   onDeleteClick = () => {
     const { client, firestore, history } = this.props;
+
 
     firestore.delete({ collection: 'clients', doc: client.id })
       .then(() => history.push('/'));
