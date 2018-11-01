@@ -16,24 +16,41 @@ class Clients extends Component {
 
     state = {
         // totalOwed: null
-        verify: "belum terverifikasi"
     }
 
-   constructor(props) {
-       super(props);
-       this.state = {
-           verify: "belum terverifikasi"
-       }
-   }     
+//    constructor(props) {
+//        super(props);
+//        this.state = {
+//            verify: "belum terverifikasi"
+//        }
+//    }     
     
+    // componentDidMount() {
+    //     const clients = this.props.clients;
+    //     const verify = this.state
+
+        // const newMount = clients.map((item) => {
+        //     return {...item, verify}
+        // })
+
+        // return newMount
+        // this.setState({
+        //     newMount
+        // })
+    // }
 
     static getDerivedStateFromProps(props, state) {
+        const {clients} = props
         // console.log(state.verify)
-        const { clients } = props;
         // console.log(clients)
 
         if (clients ) {
             
+            const client = clients.map((item) => {
+                item.verify = "belum terverifikasi";
+                return client
+            })
+
             
             // const total = clients.reduce((total, client) => {
             //     return total + parseFloat(client.balance.toString())
@@ -42,27 +59,13 @@ class Clients extends Component {
             // return { totalOwed: total }
         }
 
-        // const newVarCli = clients.map((item) => {
-        //     return {...item, verify: "belum terverifikasi"}
-        // })
+        
 
         return null;
+
        
 
     }
-
-    // componentDidMount() {
-    //     console.log(this.props.clients)
-    //     var clients = this.props.clients;
-    //     if (clients === !undefined) {
-    //         const newVarCli = clients.map((item) => {
-    //             return {...item, verify: "belum terverifikasi"}
-    //         })
-    //         return newVarCli;
-    //     }
-
-        
-    // }
 
 
     onSubmitVerify = (index, e) => {
@@ -78,36 +81,43 @@ class Clients extends Component {
         firestore.update({ collection: 'clients', doc: client.id }, updateVerify)
     }
 
-    onChange = (index, e) => {
+    // onChange = (e) => {
 
-        // console.log(index)
+    //     // console.log(index)
+    //     console.log(this.props.clients)
+    //     const clients = this.props.clients
+    //     const newVar = clients.map((clientVer) => {
+    //         clientVer.verify = e.target.value
+    //         return newVar
+    //     })
 
-        this.setState({ [e.target.name]: e.target.value })
-        this.onSubmitVerify = this.onSubmitVerify.bind(this, index, e.target.value)
-        // const { clients } = this.props;
-        // const verify = e.target.value
-        // console.log(clients)
-        // const newVar = clients.map((clientVer) => {
-        //     return {...clientVer, verify: e.target.value}
-        // })
+    //     // this.setState({ clients: newVar })
+    //     // this.onSubmitVerify = this.onSubmitVerify.bind(this, index, e.target.value)
+    //     // const verify = e.target.value
+    //     // console.log(clients)
+    //     // const newVar = clients.map((clientVer) => {
+    //     //     return {...clientVer, verify: e.target.value}
+    //     // })
         
-        // this.setState(clients[index], verify)
-        // console.log(newVar)
+    //     // this.setState(clients[index], verify)
+    //     // console.log(newVar)
 
-    };
+    // };
 
-    handleChange(index, dataType, value) {
+    onChange(index, value) {
         const {clients} = this.props
         const newState = clients.map((item, i) => {
             if (i === index) {
-                return {...item, [dataType]: value};
-            }
+                item.verify = value
+            } 
             return item;
         });
+        console.log(newState)
 
-        this.setState({
-            clients: newState
-        })
+        // this.setState({
+        //     clients: newState
+        // })
+
     }
 
     render() {
@@ -165,13 +175,13 @@ class Clients extends Component {
                                 <tbody>
                                     {clients.map((client, index) => (
                                         <tr key={client.id}>
-                                            <td>{index}</td>
+                                            <td>{index + 1}</td>
                                             <td>{client.firstName}</td>
                                             <td>{client.email}</td>
-                                            {/* <td>Rp. {parseFloat(client.balance).toFixed(2).toLocaleString('id')}</td> */}
-                                            {/* <td>Rp. {client.balance.toLocaleString('id')}</td> */}
+                                            {/* <td>Rp. {parseFloat(client.balance).toFixed(2).toLocaleString('id')}</td>
+                                            <td>Rp. {client.balance.toLocaleString('id')}</td> */}
                                             <td>
-                                                <select className="form-control" name="verify" onChange={(e) => this.handleChange(index, 'ver', e.target.value)} >
+                                                <select className="form-control" name="verify" onChange={(e) => this.onChange(index, e.target.value)} defaultValue={client.verify} >
                                                     <option value="belum terverifikasi">Belum Terverifikasi</option>
                                                     <option value="terverifikasi">Terverifikasi</option>
                                                 </select>
