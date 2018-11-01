@@ -16,7 +16,8 @@ class AddClient extends Component {
         lastClass: "",
         email: "",
         phone: "",
-        ticketAmount: "",
+        ticketAmountDewasa: "",
+        ticketAmountAnak: "",
         downloadFileUrl: "",
     }
 
@@ -78,32 +79,33 @@ class AddClient extends Component {
                     <div className="card-header">Tambah Pendaftaran</div>
                     <div className="card-body">
                         <form onSubmit={this.onSubmit}>
-                            <div className="form-group">
-                                <label htmlFor="firstName">Nama Pendaftar</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="firstName"
-                                    minLength="2"
-                                    required
-                                    onChange={this.onChange}
-                                    value={this.state.firstName}
-                                    autoComplete="Off" />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="address">Alamat</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="address"
-                                    required
-                                    onChange={this.onChange}
-                                    value={this.state.address}
-                                    autoComplete="Off" />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="lastClass">Kelas Terakhir</label>
-                                {/* <input
+                            <div className="container">
+                                <div className="form-group">
+                                    <label htmlFor="firstName">Nama Pendaftar</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="firstName"
+                                        minLength="2"
+                                        required
+                                        onChange={this.onChange}
+                                        value={this.state.firstName}
+                                        autoComplete="Off" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="address">Alamat</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="address"
+                                        required
+                                        onChange={this.onChange}
+                                        value={this.state.address}
+                                        autoComplete="Off" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="lastClass">Kelas Terakhir</label>
+                                    {/* <input
                                     type="text"
                                     className="form-control"
                                     name="lastClass"
@@ -111,71 +113,92 @@ class AddClient extends Component {
                                     onChange={this.onChange}
                                     value={this.state.lastClass}
                                     autoComplete="Off" /> */}
-                                <select
-                                    className="form-control"
-                                    name="lastClass"
-                                    required
-                                    onChange={this.onChange}
-                                    value={this.state.lastClass}
-                                    autoComplete="Off" >
-                                    <option value="3A11">3A11</option>
-                                    <option value="3A12">3A12</option>
-                                    <option value="3A13">3A13</option>
-                                    <option value="3A14">3A14</option>
-                                    <option value="3A21">3A21</option>
-                                    <option value="3A22">3A22</option>
-                                    <option value="3A31">3A31</option>
-                                    <option value="3A32">3A32</option>
-                                    <option value="3A33">3A33</option>
-                                    <option value="3A34">3A34</option>
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    name="email"
-                                    required
-                                    onChange={this.onChange}
-                                    value={this.state.email}
-                                    autoComplete="Off" />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="phone">Telepon / HP</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="phone"
-                                    minLength="10"
-                                    required
-                                    onChange={this.onChange}
-                                    value={this.state.phone}
-                                    autoComplete="Off" />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="ticketAmount">Jumlah Tiket</label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    name="ticketAmount"
-                                    minLength="10"
-                                    required
-                                    onChange={this.onChange}
-                                    value={this.state.ticketAmount}
-                                    autoComplete="Off" />
-                            </div>
-                            <label htmlFor="fotoPendaftar">Upload Foto</label>
-                            <div className="form-group">
-                                <input
-                                    type="file"
-                                    autoComplete="Off"
-                                    name="file"
-                                    onChange={this.fileSelectHandler}
-                                    accept="image/*" />
-                            </div>
+                                    <select
+                                        className="form-control"
+                                        name="lastClass"
+                                        required
+                                        onChange={this.onChange}
+                                        value={this.state.lastClass}
+                                        autoComplete="Off" >
+                                        <option value="3A11">3A11</option>
+                                        <option value="3A12">3A12</option>
+                                        <option value="3A13">3A13</option>
+                                        <option value="3A14">3A14</option>
+                                        <option value="3A21">3A21</option>
+                                        <option value="3A22">3A22</option>
+                                        <option value="3A31">3A31</option>
+                                        <option value="3A32">3A32</option>
+                                        <option value="3A33">3A33</option>
+                                        <option value="3A34">3A34</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="email">Email</label>
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        name="email"
+                                        required
+                                        onChange={this.onChange}
+                                        value={this.state.email}
+                                        autoComplete="Off" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="phone">Telepon / HP</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="phone"
+                                        minLength="10"
+                                        required
+                                        onChange={this.onChange}
+                                        value={this.state.phone}
+                                        autoComplete="Off" />
+                                </div>
 
-                            <input type="submit" value="Submit" className="btn btn-primary btn-block" />
+
+                                <h3>Jumlah Tiket</h3>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label htmlFor="ticketAmountDewasa">Dewasa</label>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            name="ticketAmountDewasa"
+                                            minLength="10"
+                                            required
+                                            onChange={this.onChange}
+                                            value={this.state.ticketAmountDewasa}
+                                            autoComplete="Off" />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="form-group">
+                                            <label htmlFor="ticketAmountAnak">Anak</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                name="ticketAmountAnak"
+                                                minLength="10"
+                                                required
+                                                onChange={this.onChange}
+                                                value={this.state.ticketAmountAnak}
+                                                autoComplete="Off" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <label htmlFor="fotoPendaftar">Upload Foto</label>
+                                <div className="form-group">
+                                    <input
+                                        type="file"
+                                        autoComplete="Off"
+                                        name="file"
+                                        onChange={this.fileSelectHandler}
+                                        accept="image/*" />
+                                </div>
+
+                                <input type="submit" value="Submit" className="btn btn-primary btn-block" />
+                            </div>
                         </form>
                     </div>
                 </div>
