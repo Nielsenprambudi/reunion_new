@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { firestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect, firebaseConnect  } from 'react-redux-firebase'
 
 import propTypes from 'prop-types'
 
@@ -18,12 +18,11 @@ class Clients extends Component {
         // totalOwed: null
     }
 
-//    constructor(props) {
-//        super(props);
-//        this.state = {
-//            verify: "belum terverifikasi"
-//        }
-//    }     
+   constructor(props) {
+       super(props);
+       
+       this.verifyInput = React.createRef();
+   }     
     
     // componentDidMount() {
     //     const clients = this.props.clients;
@@ -68,17 +67,28 @@ class Clients extends Component {
     }
 
 
-    onSubmitVerify = (index, e) => {
-        // e.preventDefault();
+    onSubmitVerify = (e) => {
+        e.preventDefault();
 
-        const {client, firestore } = this.props;
+        const {clients, firestore, history } = this.props;
+
+        
+
+        const clientFilter = clients.filter(client => client.verify !== "belum terverifikasi")
+        console.log("filtering", clientFilter)
+
+        const clientId = clientFilter.map((item) => {
+            return item.id
+        })
+        console.log(clientId)
+
         // const {verify} = this.state;
+        // const updateVerify = {
+        //     verify: this.verifyInput.current.value
+        // }
 
-        const updateVerify = {
-            ...client[index],
-            verifikasi: e
-        }
-        firestore.update({ collection: 'clients', doc: client.id }, updateVerify)
+        firestore.update({ collection: 'clients' })
+            .then(history.push('/'))
     }
 
     // onChange = (e) => {
@@ -149,6 +159,7 @@ class Clients extends Component {
                     </div>
                     <br></br>
                     <div className="table-responsive">
+                        <form onSubmit ={this.onSubmitVerify}>
                             <div className="row">
                                 <div className="col-xs-12 col-sm-6 col-md-8">
                                     <div className="form-group">
@@ -156,8 +167,8 @@ class Clients extends Component {
                                     </div>
                                 </div>
                                 <div className="col-xs-6 col-md-4">
-                                    {/* <input type="submit"  className="btn btn-primary btn-block" /> */}
-                                    <input type="submit" onClick={this.onSubmitVerify} value="Submit Verifikasi" className="btn btn-primary btn-block"/>
+                                    <input type="submit" value="Submit Verifikasi" className="btn btn-primary btn-block" />
+                                    {/* <input type="submit" onClick={this.onSubmitVerify} value="Submit Verifikasi" className="btn btn-primary btn-block"/> */}
                                 </div>
                             </div>
                             <br></br>
@@ -181,7 +192,7 @@ class Clients extends Component {
                                             {/* <td>Rp. {parseFloat(client.balance).toFixed(2).toLocaleString('id')}</td>
                                             <td>Rp. {client.balance.toLocaleString('id')}</td> */}
                                             <td>
-                                                <select className="form-control" name="verify" onChange={(e) => this.onChange(index, e.target.value)} defaultValue={client.verify} >
+                                                <select className="form-control" name="verify" onChange={(e) => this.onChange(index, e.target.value)} defaultValue={client.verify} ref={this.verifyInput} >
                                                     <option value="belum terverifikasi">Belum Terverifikasi</option>
                                                     <option value="terverifikasi">Terverifikasi</option>
                                                 </select>
@@ -195,6 +206,7 @@ class Clients extends Component {
                                     ))}
                                 </tbody>
                             </table>
+                        </form>
                     </div>
 
                 </div>
@@ -210,7 +222,8 @@ class Clients extends Component {
 
 Clients.propTypes = {
     firestore: propTypes.object.isRequired,
-    clients: propTypes.array
+    clients: propTypes.array,
+    firebase: propTypes.object.isRequired
 }
 
 function mapStateToProps({clients}) {
@@ -226,8 +239,15 @@ export default compose(
     firestoreConnect([{
         collection: 'clients'
     }]),
+    // firestoreConnect(props  =>  
+    // [{
+    //     collection: 'clients', storeAs: "client", doc: props.match.params.id
+    // }]), firebaseConnect(),
     connect((state, props) => ({
         clients: state.firestore.ordered.clients
-    })),
-    connect(mapStateToProps, mapDispatchToProps)
+    }))
+    // connect(({ firestore: { ordered }, settings }, props) => ({
+    //     client: ordered.client && ordered.client[0],
+    //     settings: settings
+    // }))
 )(Clients);

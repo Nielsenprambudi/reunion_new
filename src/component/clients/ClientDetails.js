@@ -45,6 +45,8 @@ class ClientDetails extends Component {
     const { client } = this.props;
     const { showBalanceUpdate, balanceUpdateAmount } = this.state;
 
+    const verifyStatement = "belum terverifikasi"
+
     let balanceForm = "";
 
     if (showBalanceUpdate) {
@@ -68,6 +70,8 @@ class ClientDetails extends Component {
     }
 
     if (client) {
+      const clientVer = client.verify 
+      const statement = (clientVer === verifyStatement)
       return (
         <div>
           <div className="row">
@@ -136,20 +140,28 @@ class ClientDetails extends Component {
                 <li className="list-group-item">
                   Telepon/HP : {client.phone}
                 </li>
-                <li className="list-group-item">
+                {/* <li className="list-group-item">
                   Jumlah Tiket : {client.ticketAmount}
-                </li>
+                </li> */}
                 <li className="list-group-item">
-                  <div className="alert alert-danger">
-                    <input type="checkbox"
-                      className="form-check-input"
-                      id="verify"
-                      name="verify"
-                      checked={client.verify || false}
-                      disabled
-                    />
-                    <label className="form-check-label" htmlFor="verify">Verifikasi</label>
-                  </div>
+                  {/* if ( {client.verify !== "belum terverifikasi"} ) {
+                    <div className="alert alert-success" role="alert">
+                        Verifikasi Sukses
+                    </div>
+                  } else {
+                    <div className="alert alert-danger" role="alert">
+                        Belum terverifikasi
+                    </div>
+                  } */}
+                  {statement ?  
+                    <div className="alert alert-success" role="alert">
+                      <h3>Verifikasi Sukses</h3>
+                    </div>
+                    : 
+                    <div className="alert alert-danger" role="alert">
+                       <h3>Belum terverifikasi</h3>
+                    </div>
+                  }
                 </li>
               </ul>
             </div>

@@ -26,6 +26,7 @@ class EditClient extends Component {
         e.preventDefault();
 
         const { client, firestore, history } = this.props;
+        console.log(client.id)
         const UpdClient = {
             firstName: this.firstNameInput.current.value,
             address: this.addressInput.current.value,
@@ -48,12 +49,17 @@ class EditClient extends Component {
             const url = client.downloadFileUrl;
             const ref = firebase.storage().ref();
             const task = ref.child(url);
+            const emptyName = client.firstName;
+            const emptyEmail = client.email;
+            const emptyAddress = client.address;
+            const emptyPhone = client.phone;
 
             task.getDownloadURL().then((url) => {
                 document.querySelector('img').src = url;
             }).catch((error) => {
                 console.log(error)
             })
+
 
             return (
                 <div>
@@ -78,6 +84,7 @@ class EditClient extends Component {
                                         required
                                         ref={this.firstNameInput}
                                         defaultValue={client.firstName} />
+                                    { emptyName ? <sub></sub> : <sub className="text-danger">Nama tidak boleh kosong</sub>}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="address">Alamat</label>
@@ -88,6 +95,7 @@ class EditClient extends Component {
                                         required
                                         ref={this.addressInput}
                                         defaultValue={client.address} />
+                                    { emptyAddress ? <sub></sub> : <sub className="text-danger">Alamat tidak boleh kosong</sub>}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="lastClass">Kelas Terakhir</label>
@@ -125,6 +133,7 @@ class EditClient extends Component {
                                         required
                                         ref={this.emailInput}
                                         defaultValue={client.email} />
+                                    { emptyEmail ? <sub></sub> : <sub className="text-danger">Email tidak boleh kosong</sub>}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="phone">Telepon/HP</label>
@@ -136,19 +145,24 @@ class EditClient extends Component {
                                         required
                                         ref={this.phoneInput}
                                         defaultValue={client.phone} />
+                                    { emptyPhone ? <sub></sub> : <sub className="text-danger">Telepon / HP tidak boleh kosong</sub>}
                                 </div>
 
                                 <label htmlFor="fotoPendaftar">Upload Foto</label>
+                                <br></br>
+                                <img alt="altimage" height="125px" width="120px" />
+                                <br></br>
+                                <br></br>
                                 <div className="form-group">
-                                    <img alt="altimage" height="125px" width="120px" />
                                     <input
                                         type="file"
                                         autoComplete="Off"
+                                        className="btn-default"
                                         name="file"
                                         onChange={this.fileSelectHandler}
                                         accept="image/*" />
                                 </div>
-                                <input type="submit" value="Submit" className="btn btn-primary btn-block" />
+                                <input type="submit" value="Submit" disabled={!client.firstName && !client.email && !client.address && !client.phone} className="btn btn-primary btn-block" />
                             </form>
                         </div>
                     </div>
@@ -167,7 +181,8 @@ EditClient.propTypes = {
 }
 
 export default compose(
-    firestoreConnect(props => [
+    firestoreConnect(props => 
+        [
         { collection: "clients", storeAs: "client", doc: props.match.params.id }
     ]), firebaseConnect(),
     connect(({ firestore: { ordered }, settings }, props) => ({
