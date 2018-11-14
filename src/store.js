@@ -10,12 +10,12 @@ import settingReducer from "./reducers/settingsReducer";
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDoXDBW7i12Xkegmjw5dgZ6wVszTDhhNxk",
-    authDomain: "reunion-d9d00.firebaseapp.com",
-    databaseURL: "https://reunion-d9d00.firebaseio.com",
-    projectId: "reunion-d9d00",
-    storageBucket: "reunion-d9d00.appspot.com",
-    messagingSenderId: "532721335626"
+    apiKey: "AIzaSyDy6pUUEkP24DW21m4nprzX3ONygUgb6NI",
+    authDomain: "reuni-80594.firebaseapp.com",
+    databaseURL: "https://reuni-80594.firebaseio.com",
+    projectId: "reuni-80594",
+    storageBucket: "reuni-80594.appspot.com",
+    messagingSenderId: "879518199125"
 };
 
 //react redux firebase config

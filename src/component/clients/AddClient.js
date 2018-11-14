@@ -16,9 +16,14 @@ class AddClient extends Component {
         lastClass: "",
         email: "",
         phone: "",
-        ticketAmountDewasa: "",
-        ticketAmountAnak: "",
-        verify: "belum terverifikasi",
+        ticketAmountDewasa: 0,
+        ticketAmountAnak: 0,
+        PhotoFileUrl: "",
+        totalAmount: 0,
+        verify: false,
+        verifyPayment: false,
+        PaymentPhotoFileUrl: '',
+        QRCodeFileUrl: '',
         downloadFileUrl: "",
     }
 
@@ -31,6 +36,17 @@ class AddClient extends Component {
         this.fileUpload.file = event.target.files[0];
     }
 
+    amountChange = (event) => {
+
+        var totalMount = (parseFloat(event.target.value) * 350000);
+        this.setState({
+            ticketAmountDewasa: event.target.value,
+            totalAmount: new Intl.NumberFormat('EN-ID', { maximumSignificantDigits: 3 }).format(totalMount)
+        });
+
+        console.log("total amount value on change",
+            new Intl.NumberFormat('EN-ID', { maximumSignificantDigits: 3 }).format(totalMount));
+    }
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -45,11 +61,13 @@ class AddClient extends Component {
         let ref = firebase.storage().ref();
         const metadata = { contentType: file.type };
 
-
+        // console.log('images/' + new Date().toISOString() + '.' + file.type.split('/')[1], file);
         new Compressor(file, {
             quality: 0.1,
             success(result) {
-                const task = ref.child('images/' + file.name).put(result, metadata);
+                const task =
+                    ref.child('images/' + new Date().toISOString() + '.' +
+                        file.type.split('/')[1]).put(result, metadata);
 
                 task
                     .then(snapshot => {
@@ -67,12 +85,14 @@ class AddClient extends Component {
     onVerifyChange = (e) => this.setState({ [e.target.name]: e.target.checked });
 
     render() {
+        const totalAmount = 0.00;
         const emptyName = this.state.firstName;
-        const emptyEmail = this.state.email;
         const emptyAddress = this.state.address;
+        const emptyEmail = this.state.email;
         const emptyPhone = this.state.phone;
+
         return (
-            
+
             <div>
                 <div className="row">
                     <div className="col-md-6">
@@ -96,7 +116,7 @@ class AddClient extends Component {
                                     onChange={this.onChange}
                                     value={this.state.firstName}
                                     autoComplete="Off" />
-                                { emptyName ? <sub></sub> : <sub className="text-danger">Nama tidak boleh kosong</sub>}
+                                {emptyName ? <sub></sub> : <sub className="text-danger">Nama tidak boleh kosong</sub>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="address">Alamat</label>
@@ -108,7 +128,7 @@ class AddClient extends Component {
                                     onChange={this.onChange}
                                     value={this.state.address}
                                     autoComplete="Off" />
-                                { emptyAddress ? <sub></sub> : <sub className="text-danger">Alamat tidak boleh kosong</sub>}
+                                {emptyAddress ? <sub></sub> : <sub className="text-danger">Alamat tidak boleh kosong</sub>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="lastClass">Kelas Terakhir</label>
@@ -149,7 +169,7 @@ class AddClient extends Component {
                                     onChange={this.onChange}
                                     value={this.state.email}
                                     autoComplete="Off" />
-                                { emptyEmail ? <sub></sub> : <sub className="text-danger">Email tidak boleh kosong</sub>}
+                                {emptyEmail ? <sub></sub> : <sub className="text-danger">Email tidak boleh kosong</sub>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="phone">Telepon / HP</label>
@@ -162,18 +182,9 @@ class AddClient extends Component {
                                     onChange={this.onChange}
                                     value={this.state.phone}
                                     autoComplete="Off" />
-                                { emptyPhone ? <sub></sub> : <sub className="text-danger">Telepon / HP tidak boleh kosong</sub>}
+                                {emptyPhone ? <sub></sub> : <sub className="text-danger">Telepon / HP tidak boleh kosong</sub>}
                             </div>
-                            <div className="form-group" hidden>
-                                <label htmlFor="verify">verify</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="verify"
-                                    value={this.state.verify}
-                                    readOnly
-                                    autoComplete="Off" />
-                            </div>
+
                             <h3>Jumlah Tiket</h3>
                             <div className="row">
                                 <div className="col-md-6">
@@ -184,7 +195,7 @@ class AddClient extends Component {
                                         name="ticketAmountDewasa"
                                         minLength="10"
                                         required
-                                        onChange={this.onChange}
+                                        onChange={this.amountChange}
                                         value={this.state.ticketAmountDewasa}
                                         autoComplete="Off" />
                                 </div>
@@ -195,13 +206,23 @@ class AddClient extends Component {
                                             type="number"
                                             className="form-control"
                                             name="ticketAmountAnak"
-                                            minLength="10"
-                                            required
                                             onChange={this.onChange}
                                             value={this.state.ticketAmountAnak}
                                             autoComplete="Off" />
                                     </div>
                                 </div>
+
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="totalAmount">Saldo yang harus di bayar</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="totalAmount"
+                                    required
+                                    value={this.state.totalAmount}
+                                    disabled={true}
+                                    autoComplete="Off" />
                             </div>
                             <label htmlFor="fotoPendaftar">Upload Foto</label>
                             <div className="form-group">
