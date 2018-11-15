@@ -1,0 +1,18 @@
+.petra-navbar {
+    margin-bottom: 0;
+    background-color: #343a40;
+    border: 0;
+    font-size: 11px !important;
+    letter-spacing: 4px;
+}
+img {
+    width: 50px;
+}
+.border-radius {
+    border-radius: 10px;
+}
+.petra-container {
+    background-color: #cdcdd1;
+}
+
+
