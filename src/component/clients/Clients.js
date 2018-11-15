@@ -8,8 +8,6 @@ import { firestoreConnect } from 'react-redux-firebase'
 import propTypes from 'prop-types'
 
 import Spinner from "../layout/Spinner";
-
-import ReactTooltip from "react-tooltip";
 import { bindActionCreators } from 'redux';
 
 import { search } from "../../actions/settingActions";
@@ -150,7 +148,6 @@ class Clients extends Component {
                                     <th>Verifikasi</th>
                                     <th>Detil</th>
                                     <th>Bukti Bayar</th>
-                                    <th>Daftar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -180,11 +177,6 @@ class Clients extends Component {
                                         <td>
                                             <Link to={`/client/verify/${client.id}`} className="btn btn-success btn-sm">
                                                 <i className="fas fa-file-upload"></i> Upload
-                                            </Link>
-                                        </td>
-                                        <td>
-                                            <Link to={`/client/verify/${client.id}/child`} className="btn btn-info btn-sm" data-tip ="Tambah istri atau anak" data-place = "left" ><ReactTooltip/>
-                                                <i className="fas fa-child"></i> Tambah
                                             </Link>
                                         </td>
                                         
