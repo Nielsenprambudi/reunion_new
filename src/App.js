@@ -13,6 +13,7 @@ import EditClient from "./component/clients/EditClient";
 import ClientDetails from "./component/clients/ClientDetails";
 import UploadClientPay from "./component/clients/UploadClientPay";
 import AddClientFam from "./component/clients/AddClientFam";
+import ThankYou from "./component/clients/ThankYou";
 import Login from "./component/auth/Login";
 import Register from "./component/auth/Register";
 import Settings from "./component/settings/Settings";
@@ -32,6 +33,7 @@ class App extends Component {
                 <Route exact path="/client/:id" component={UserIsAuthenticated(ClientDetails)} />
                 <Route exact path="/client/verify/:id" component={UserIsAuthenticated(UploadClientPay)} />
                 <Route exact path="/client/verify/:id/child" component={UserIsAuthenticated(AddClientFam)} />
+                <Route exact path="/thankyou" component={UserIsNotAuthenticated(ThankYou)} />
                 <Route exact path="/login" component={UserIsNotAuthenticated(Login)} />
                 <Route exact path="/register" component={UserIsNotAuthenticated(Register)} />
                 <Route exact path="/settings" component={UserIsAuthenticated(Settings)} />
