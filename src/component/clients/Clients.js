@@ -8,6 +8,7 @@ import { firestoreConnect } from 'react-redux-firebase'
 import propTypes from 'prop-types'
 
 import Spinner from "../layout/Spinner";
+
 import { bindActionCreators } from 'redux';
 
 import { search } from "../../actions/settingActions";
@@ -28,7 +29,6 @@ class Clients extends Component {
             return idInt === id;
         });
 
-
         if (idExist === -1)
             ids.push(id);
         else
@@ -37,6 +37,7 @@ class Clients extends Component {
         this.setState({
             ids: ids
         });
+        console.log(ids, "idsss");
     }
 
     onSubmitVerify = () => {
@@ -44,14 +45,13 @@ class Clients extends Component {
 
         // mailgun.client({})
 
-        let { clients, firestore } = this.props;
+        let { clients, firestore, history } = this.props;
         const ids = this.state.ids;
 
         // const {verify} = this.state;
         clients = clients.filter(client => ids.indexOf(client.id) > -1);
 
         clients.map(client => {
-            console.log(client);
             client.verify = true;
             firestore.update({ collection: 'clients', doc: client.id }, client);
         });
@@ -89,14 +89,45 @@ class Clients extends Component {
     }
 
     render() {
+        const { firebase } = this.props;
         const { clients, search, value } = this.props;
 
-        // const { verify } = this.state;
-        // const { totalOwed } = this.state;
-        // const number = 3500;
-        // console.log(number.toLocaleString('id'))
+        var Clients = [];
+
         if (clients) {
-            console.log(clients, 'clients');
+            const filteredClients = clients.filter((client) => {
+                return client.verify === false;
+            }).map((client) => {
+                var Client = {
+                    firstName: "",
+                    email: "",
+                    saldo: 0.00,
+                    clientId: "",
+                    images: {
+                        url: "",
+                        key: ""
+                    }
+                };
+
+                const task = firebase.storage().ref(client.downloadFileUrl);
+
+                task.getDownloadURL().then((url) => {
+                    document.querySelector('img#img' + client.id).src = url;
+                }).catch((error) => {
+                    console.log(error)
+                })
+
+                Client.clientId = client.id;
+                Client.firstName = client.firstName;
+                Client.email = client.email;
+                Client.totalAmount = client.totalAmount;
+                Client.images = {
+                    key: "img" + client.id,
+                    url: ""
+                };
+                return Client;
+            });
+
 
             return (
                 <div>
@@ -142,46 +173,42 @@ class Clients extends Component {
                             <thead className="thead-inverse">
                                 <tr>
                                     <th>No</th>
+                                    <th>Foto</th>
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th>Saldo</th>
                                     <th>Verifikasi</th>
                                     <th>Detil</th>
-                                    <th>Bukti Bayar</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {clients.map((client, index) => (
-
-                                    <tr key={client.id} >
-                                        <td>{index + 1}</td>
-                                        <td>{client.firstName}</td>
-                                        <td>{client.email}</td>
-                                        <td>Rp. {client.totalAmount}</td>
-                                        {/* <td>Rp. {client.balance.toLocaleString('id')}</td> */}
-                                        < td >
-                                            {/* <select className="form-control" name="verify" onChange={(e) => this.handleChange(index, 'ver', e.target.value)} >
+                                {filteredClients.map((client, index) =>
+                                    (
+                                        <tr key={client.clientId} >
+                                            <td>{index + 1}</td>
+                                            <td><img id={client.clientId} /></td>
+                                            <td>{client.firstName}</td>
+                                            <td>{client.email}</td>
+                                            <td>Rp. {client.totalAmount}</td>
+                                            {/* <td>Rp. {client.balance.toLocaleString('id')}</td> */}
+                                            <td>
+                                                {/* <select className="form-control" name="verify" onChange={(e) => this.handleChange(index, 'ver', e.target.value)} >
                                                 <option value="belum terverifikasi">Belum Terverifikasi</option>
                                                 <option value="terverifikasi">Terverifikasi</option>
                                             </select> */}
-                                            < div className="form-check" >
-                                                <input type="checkbox" onClick={() => this.onCheckChange(client.id, index)} className="form-check-input" id={"verifyMember" + index} />
-                                                <label className="form-check-label" htmlFor={"verifyMember" + index}>Verify</label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <Link to={`/client/${client.id}`} className="btn btn-primary btn-sm">
-                                                <i className="fas fa-arrow-circle-right"></i> Details
+                                                < div className="form-check" >
+                                                    <input type="checkbox" onClick={() => this.onCheckChange(client.clientId, index)} className="form-check-input" id={"verifyMember" + index} />
+                                                    <label className="form-check-label" htmlFor={"verifyMember" + index}>Verify</label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <Link to={`/client/${client.clientId}`} className="btn btn-primary btn-sm">
+                                                    <i className="fas fa-arrow-circle-right"></i> Details
                                                 </Link>
-                                        </td>
-                                        <td>
-                                            <Link to={`/client/verify/${client.id}`} className="btn btn-success btn-sm">
-                                                <i className="fas fa-file-upload"></i> Upload
-                                            </Link>
-                                        </td>
-                                        
-                                    </tr>
-                                ))}
+                                            </td>
+
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     </div >

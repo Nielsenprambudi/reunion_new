@@ -66,6 +66,21 @@ class AppNavbar extends Component {
                                     </a>
                                 </li>
                                 <li className="nav-item">
+                                    <Link to="/" className="nav-link">
+                                        Verify
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to="/Client/Payment/Verify" className="nav-link">
+                                        P. Verify
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to="/List/VerifyClient" className="nav-link">
+                                        List Verify
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
                                     <Link to="/settings" className="nav-link">
                                         Settings
                                     </Link>

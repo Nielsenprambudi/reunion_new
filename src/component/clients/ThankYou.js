@@ -86,6 +86,7 @@ class ThankYou extends Component {
     // onVerifyChange = (e) => this.setState({ [e.target.name]: e.target.checked });
 
     render() {
+        const { history } = this.props;
         // const totalAmount = 0.00;
         // const emptyName = this.state.firstName;
         // const emptyAddress = this.state.address;
@@ -105,7 +106,7 @@ class ThankYou extends Component {
                     <div className="container-fluid">
                         <div className="navbar-header">
                             <a className="navbar-brand" href="/">
-                                <img alt="Logo Petra" src="https://firebasestorage.googleapis.com/v0/b/reuni-80594.appspot.com/o/Assets%2FPPPK_Petra_Logo.png?alt=media&token=49aaefe0-1251-48ce-a352-6182f8dde2e0"/>
+                                <img alt="Logo Petra" src="https://firebasestorage.googleapis.com/v0/b/reuni-80594.appspot.com/o/Assets%2FPPPK_Petra_Logo.png?alt=media&token=49aaefe0-1251-48ce-a352-6182f8dde2e0" />
                             </a>
                         </div>
                     </div>
@@ -117,9 +118,10 @@ class ThankYou extends Component {
                     </div>
                     <footer>
                         <p>SMA Kr. Petra Angkatan '94</p>
+                        <input type="button" className="btn btn-green" value="Kembali" onClick={() => history.push('/')} />
                     </footer>
                 </div>
-                
+
 
 
             </div>

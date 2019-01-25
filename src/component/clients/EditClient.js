@@ -84,7 +84,7 @@ class EditClient extends Component {
                                         required
                                         ref={this.firstNameInput}
                                         defaultValue={client.firstName} />
-                                    { emptyName ? <sub></sub> : <sub className="text-danger">Nama tidak boleh kosong</sub>}
+                                    {emptyName ? <sub></sub> : <sub className="text-danger">Nama tidak boleh kosong</sub>}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="address">Alamat</label>
@@ -95,7 +95,7 @@ class EditClient extends Component {
                                         required
                                         ref={this.addressInput}
                                         defaultValue={client.address} />
-                                    { emptyAddress ? <sub></sub> : <sub className="text-danger">Alamat tidak boleh kosong</sub>}
+                                    {emptyAddress ? <sub></sub> : <sub className="text-danger">Alamat tidak boleh kosong</sub>}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="lastClass">Kelas Terakhir</label>
@@ -106,23 +106,23 @@ class EditClient extends Component {
                                         required
                                         ref={this.lastClassInput}
                                         defaultValue={client.lastClass} /> */}
-                                        <select
-                                            className="form-control"
-                                            name="lastClass"
-                                            required
-                                            ref={this.lastClassInput}
-                                            defaultValue={client.lastClass}>
-                                            <option value="3A11">3A11</option>
-                                            <option value="3A12">3A12</option>
-                                            <option value="3A13">3A13</option>
-                                            <option value="3A14">3A14</option>
-                                            <option value="3A21">3A21</option>
-                                            <option value="3A22">3A22</option>
-                                            <option value="3A31">3A31</option>
-                                            <option value="3A32">3A32</option>
-                                            <option value="3A33">3A33</option>
-                                            <option value="3A34">3A34</option>
-                                        </select>
+                                    <select
+                                        className="form-control"
+                                        name="lastClass"
+                                        required
+                                        ref={this.lastClassInput}
+                                        defaultValue={client.lastClass}>
+                                        <option value="3A11">3A11</option>
+                                        <option value="3A12">3A12</option>
+                                        <option value="3A13">3A13</option>
+                                        <option value="3A14">3A14</option>
+                                        <option value="3A21">3A21</option>
+                                        <option value="3A22">3A22</option>
+                                        <option value="3A31">3A31</option>
+                                        <option value="3A32">3A32</option>
+                                        <option value="3A33">3A33</option>
+                                        <option value="3A34">3A34</option>
+                                    </select>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="email">email</label>
@@ -133,7 +133,7 @@ class EditClient extends Component {
                                         required
                                         ref={this.emailInput}
                                         defaultValue={client.email} />
-                                    { emptyEmail ? <sub></sub> : <sub className="text-danger">Email tidak boleh kosong</sub>}
+                                    {emptyEmail ? <sub></sub> : <sub className="text-danger">Email tidak boleh kosong</sub>}
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="phone">Telepon/HP</label>
@@ -145,7 +145,7 @@ class EditClient extends Component {
                                         required
                                         ref={this.phoneInput}
                                         defaultValue={client.phone} />
-                                    { emptyPhone ? <sub></sub> : <sub className="text-danger">Telepon / HP tidak boleh kosong</sub>}
+                                    {emptyPhone ? <sub></sub> : <sub className="text-danger">Telepon / HP tidak boleh kosong</sub>}
                                 </div>
 
                                 <label htmlFor="fotoPendaftar">Upload Foto</label>
@@ -181,8 +181,7 @@ EditClient.propTypes = {
 }
 
 export default compose(
-    firestoreConnect(props => 
-        [
+    firestoreConnect(props => [
         { collection: "clients", storeAs: "client", doc: props.match.params.id }
     ]), firebaseConnect(),
     connect(({ firestore: { ordered }, settings }, props) => ({

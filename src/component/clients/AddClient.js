@@ -16,12 +16,16 @@ class AddClient extends Component {
         lastClass: "",
         email: "",
         phone: "",
+        ticketAmountDewasa: 0,
+        ticketAmountAnak: 0,
         PhotoFileUrl: "",
+        totalAmount: 0,
         verify: false,
         verifyPayment: false,
         PaymentPhotoFileUrl: '',
         QRCodeFileUrl: '',
         downloadFileUrl: "",
+        ParentId: null
     }
 
     fileUpload = {
@@ -71,17 +75,19 @@ class AddClient extends Component {
                         console.log(snapshot.metadata)
                         newClient.downloadFileUrl = snapshot.metadata.fullPath;
                     }).then(() => {
-                        firestore.add({ collection: 'clients' }, newClient).then(() => history.push('/'));
+                        firestore.add({ collection: 'clients' }, newClient).then(() => history.push('/ThankYou'));
                     })
                     .catch(console.error);
             }
-        })
+        });
+
     }
 
     onChange = (e) => this.setState({ [e.target.name]: e.target.value });
     onVerifyChange = (e) => this.setState({ [e.target.name]: e.target.checked });
 
     render() {
+        const totalAmount = 0.00;
         const emptyName = this.state.firstName;
         const emptyAddress = this.state.address;
         const emptyEmail = this.state.email;
@@ -143,6 +149,7 @@ class AddClient extends Component {
                                     onChange={this.onChange}
                                     value={this.state.lastClass}
                                     autoComplete="Off" >
+                                    <option value="Kosong">Kosong</option>
                                     <option value="3A11">3A11</option>
                                     <option value="3A12">3A12</option>
                                     <option value="3A13">3A13</option>
@@ -153,7 +160,6 @@ class AddClient extends Component {
                                     <option value="3A32">3A32</option>
                                     <option value="3A33">3A33</option>
                                     <option value="3A34">3A34</option>
-                                    <option value="">Lain-lain</option>
                                 </select>
                             </div>
                             <div className="form-group">
@@ -180,6 +186,46 @@ class AddClient extends Component {
                                     value={this.state.phone}
                                     autoComplete="Off" />
                                 {emptyPhone ? <sub></sub> : <sub className="text-danger">Telepon / HP tidak boleh kosong</sub>}
+                            </div>
+
+                            <h3>Jumlah Tiket</h3>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <label htmlFor="ticketAmountDewasa">Dewasa</label>
+                                    <input
+                                        type="number"
+                                        className="form-control"
+                                        name="ticketAmountDewasa"
+                                        minLength="10"
+                                        required
+                                        onChange={this.amountChange}
+                                        value={this.state.ticketAmountDewasa}
+                                        autoComplete="Off" />
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group">
+                                        <label htmlFor="ticketAmountAnak">Anak</label>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            name="ticketAmountAnak"
+                                            onChange={this.onChange}
+                                            value={this.state.ticketAmountAnak}
+                                            autoComplete="Off" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="totalAmount">Saldo yang harus di bayar</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="totalAmount"
+                                    required
+                                    value={this.state.totalAmount}
+                                    disabled={true}
+                                    autoComplete="Off" />
                             </div>
                             <label htmlFor="fotoPendaftar">Upload Foto</label>
                             <div className="form-group">

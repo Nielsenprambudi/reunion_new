@@ -12,7 +12,7 @@ class ProfilePerson extends Component {
 
   render() {
     const { client } = this.props;
-
+    console.log('test');
 
     if (client) {
       return (

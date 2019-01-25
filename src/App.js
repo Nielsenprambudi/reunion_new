@@ -18,6 +18,9 @@ import ProfilePerson from "./component/clients/profilePerson";
 import Login from "./component/auth/Login";
 import Register from "./component/auth/Register";
 import Settings from "./component/settings/Settings";
+import ClientsPaymentApproval from './component/clients/ClientsPaymentApproval';
+import ClientsVerifyList from './component/clients/ClientsVerifyList';
+
 
 class App extends Component {
   render() {
@@ -32,9 +35,13 @@ class App extends Component {
                 <Route exact path="/client/add" component={AddClient} />
                 <Route exact path="/client/edit/:id" component={UserIsAuthenticated(EditClient)} />
                 <Route exact path="/client/:id" component={UserIsAuthenticated(ClientDetails)} />
-                <Route exact path="/client/verify/:id" component={UserIsAuthenticated(UploadClientPay)} />
-                <Route exact path="/client/verify/:id/child" component={UserIsAuthenticated(AddClientFam)} />
-                <Route exact path="/person/:id" component={UserIsNotAuthenticated(ProfilePerson)}/>
+                <Route exact path="/Client/Verify/:id" component={UserIsNotAuthenticated(UploadClientPay)} />
+
+                <Route exact path="/Client/Payment/Verify" component={UserIsAuthenticated(ClientsPaymentApproval)} />
+                <Route exact path="/List/VerifyClient" component={UserIsAuthenticated(ClientsVerifyList)} />
+
+                <Route exact path="/Client/Verify/:id/child" component={UserIsNotAuthenticated(AddClientFam)} />
+                <Route exact path="/Person/:id" component={UserIsNotAuthenticated(ProfilePerson)} />
                 <Route exact path="/thankyou" component={UserIsNotAuthenticated(ThankYou)} />
                 <Route exact path="/login" component={UserIsNotAuthenticated(Login)} />
                 <Route exact path="/register" component={UserIsNotAuthenticated(Register)} />

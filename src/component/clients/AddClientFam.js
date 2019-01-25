@@ -25,6 +25,7 @@ class AddClientFam extends Component {
         PaymentPhotoFileUrl: '',
         QRCodeFileUrl: '',
         downloadFileUrl: "",
+        ParentId: ""
     }
 
     fileUpload = {
@@ -53,10 +54,17 @@ class AddClientFam extends Component {
 
 
         const newClient = this.state;
-        const { firestore, firebase, history } = this.props;
+        const { firestore, firebase, history, client } = this.props;
 
         const file = this.fileUpload.file;
+        newClient.verify = true;
+        newClient.verifyPayment = true;
+        newClient.QRCodeFileUrl = null;
+        newClient.PaymentPhotoFileUrl = null;
 
+
+        console.log(this.props.location.id, client.id, client, "location id");
+        newClient.ParentId = client.id;
 
         let ref = firebase.storage().ref();
         const metadata = { contentType: file.type };
@@ -74,7 +82,7 @@ class AddClientFam extends Component {
                         console.log(snapshot.metadata)
                         newClient.downloadFileUrl = snapshot.metadata.fullPath;
                     }).then(() => {
-                        firestore.add({ collection: 'clients' }, newClient).then(() => history.push('/'));
+                        firestore.add({ collection: 'clients_fam' }, newClient).then(() => history.push('/Thankyou'));
                     })
                     .catch(console.error);
             }
@@ -147,6 +155,7 @@ class AddClientFam extends Component {
                                     onChange={this.onChange}
                                     value={this.state.lastClass}
                                     autoComplete="Off" >
+                                    <option value="Kosong">Kosong</option>
                                     <option value="3A11">3A11</option>
                                     <option value="3A12">3A12</option>
                                     <option value="3A13">3A13</option>
@@ -184,46 +193,6 @@ class AddClientFam extends Component {
                                     autoComplete="Off" />
                                 {emptyPhone ? <sub></sub> : <sub className="text-danger">Telepon / HP tidak boleh kosong</sub>}
                             </div>
-
-                            <h3>Jumlah Tiket</h3>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <label htmlFor="ticketAmountDewasa">Dewasa</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="ticketAmountDewasa"
-                                        minLength="10"
-                                        required
-                                        onChange={this.amountChange}
-                                        value={this.state.ticketAmountDewasa}
-                                        autoComplete="Off" />
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="form-group">
-                                        <label htmlFor="ticketAmountAnak">Anak</label>
-                                        <input
-                                            type="number"
-                                            className="form-control"
-                                            name="ticketAmountAnak"
-                                            onChange={this.onChange}
-                                            value={this.state.ticketAmountAnak}
-                                            autoComplete="Off" />
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="totalAmount">Saldo yang harus di bayar</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="totalAmount"
-                                    required
-                                    value={this.state.totalAmount}
-                                    disabled={true}
-                                    autoComplete="Off" />
-                            </div>
                             <label htmlFor="fotoPendaftar">Upload Foto</label>
                             <div className="form-group">
                                 <input
@@ -252,8 +221,12 @@ AddClientFam.propTypes = {
     settings: propTypes.object.isRequired
 }
 
-export default compose(firestoreConnect(), firebaseConnect(),
-    connect((state, props) => ({
-        settings: state.settings
+export default compose(
+    firestoreConnect(props => [
+        { collection: "clients", storeAs: "client", doc: props.match.params.id }
+    ]), firebaseConnect(),
+    connect(({ firestore: { ordered }, settings }, props) => ({
+        client: ordered.client && ordered.client[0],
+        settings: settings
     }))
 )(AddClientFam);
