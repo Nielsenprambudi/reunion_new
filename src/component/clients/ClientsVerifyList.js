@@ -156,7 +156,6 @@ class ClientsVerifyList extends Component {
                                     <th>Foto</th>
                                     <th>Nama</th>
                                     <th>Email</th>
-                                    <th>Saldo</th>
                                     {/* <th>Verifikasi</th> */}
                                     <th>Detil</th>
                                 </tr>
@@ -169,7 +168,6 @@ class ClientsVerifyList extends Component {
                                             <td><img id={client.clientId} /></td>
                                             <td>{client.firstName}</td>
                                             <td>{client.email}</td>
-                                            <td>Rp. {client.totalAmount}</td>
                                             {/* <td>Rp. {client.balance.toLocaleString('id')}</td> */}
                                             {/* <td> */}
                                                 {/* <select className="form-control" name="verify" onChange={(e) => this.handleChange(index, 'ver', e.target.value)} >

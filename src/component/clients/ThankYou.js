@@ -113,7 +113,7 @@ class ThankYou extends Component {
                 </nav>
                 <div className="petra-container text-center">
                     <div className="card-body">
-                        <h3 className="card-title">Terima Kasih Telah Melakukan Pembayaran</h3>
+                        <h3 className="card-title">Terima Kasih</h3>
                         <p className="card-text">Selanjutnya silahkan menunggu e-mail pemberitahuan dari administrator</p>
                     </div>
                     <footer>

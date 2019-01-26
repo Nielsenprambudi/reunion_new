@@ -87,9 +87,7 @@ class AddClient extends Component {
     onVerifyChange = (e) => this.setState({ [e.target.name]: e.target.checked });
 
     render() {
-        const totalAmount = 0.00;
         const emptyName = this.state.firstName;
-        const emptyAddress = this.state.address;
         const emptyEmail = this.state.email;
         const emptyPhone = this.state.phone;
 
@@ -126,11 +124,9 @@ class AddClient extends Component {
                                     type="text"
                                     className="form-control"
                                     name="address"
-                                    required
                                     onChange={this.onChange}
                                     value={this.state.address}
                                     autoComplete="Off" />
-                                {emptyAddress ? <sub></sub> : <sub className="text-danger">Alamat tidak boleh kosong</sub>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="lastClass">Kelas Terakhir</label>
@@ -145,7 +141,6 @@ class AddClient extends Component {
                                 <select
                                     className="form-control"
                                     name="lastClass"
-                                    required
                                     onChange={this.onChange}
                                     value={this.state.lastClass}
                                     autoComplete="Off" >
@@ -181,7 +176,6 @@ class AddClient extends Component {
                                     className="form-control"
                                     name="phone"
                                     minLength="10"
-                                    required
                                     onChange={this.onChange}
                                     value={this.state.phone}
                                     autoComplete="Off" />
@@ -238,7 +232,7 @@ class AddClient extends Component {
                                     accept="image/*" />
                             </div>
 
-                            <input type="submit" value="Submit" disabled={!this.state.firstName && !this.state.email && !this.state.address && !this.state.phone} className="btn btn-primary btn-block" />
+                            <input type="submit" value="Submit" disabled={!this.state.firstName && !this.state.email  && !this.state.phone} className="btn btn-primary btn-block" />
                         </form>
                     </div>
                 </div>

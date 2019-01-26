@@ -13,7 +13,7 @@ class ProfilePerson extends Component {
   render() {
     const { client } = this.props;
     console.log('test');
-
+    console.log("variable :", client)
     if (client) {
       return (
         <div>
@@ -35,6 +35,15 @@ class ProfilePerson extends Component {
                 <li className="list-group-item">
                   Telepon/HP : {client.phone}
                 </li>
+                <li className="list-group-item">
+                  Total tiket dewasa : {client.ticketAmountDewasa}
+                </li>
+                {
+                  (client.ticketAmountAnak === 0) ? null :
+                  <li className="list-group-item">
+                    Total tiket anak : {client.ticketAmountAnak}
+                  </li>
+                }
               </ul>
             </div>
           </div>
