@@ -11,8 +11,8 @@
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
     "cors": "^2.8.5",
-    "firebase-admin": "~6.0.0",
-    "firebase-functions": "^2.0.3",
+    "firebase-admin": "~11.4.1",
+    "firebase-functions": "^4.1.1",
     "gmail-send": "^1.2.14",
     "nodemailer": "^4.6.8",
     "nodemailer-postmark-transport": "^1.4.0"
